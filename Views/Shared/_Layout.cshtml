@@ -1,0 +1,63 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Amazon</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+</head>
+<body style="padding-top:0px">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light" style="position:fixed;width:100%;top:0;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.05);z-index:10">
+        <img class="navbar-brand" src="https://img.icons8.com/pastel-glyph/50/000000/tree.png" />
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarColor03">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/Home">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/Home/About">About</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/Home/Contact">Contact</a>
+                </li>
+            </ul>
+            <form class="form-inline my-2 my-lg-0">
+                <input class="form-control mr-sm-2" type="text" placeholder="Search">
+                <button class="btn btn-secondary my-2 my-sm-0" type="submit" style="padding:0">
+                    <img width="30" src="https://img.icons8.com/ios/50/000000/search--v1.png">
+                </button>
+                <div style="margin-left:80px;display:flex">
+                    @if (String.IsNullOrEmpty((string)System.Web.HttpContext.Current.Session["loggedIn"]))
+                    {
+                        <a href="/auth/login" class="btn btn-primary">Login</a>
+                    }
+                    else
+                    {
+                        <div style="padding-right:30px">Hi @System.Web.HttpContext.Current.Session["username"]</div>
+                        <img src="https://img.icons8.com/pastel-glyph/64/000000/shopping-cart--v2.png" width="30">
+                        <a href="/auth/logout" style="margin-left:20px">
+                            <img src="https://img.icons8.com/ios/50/000000/logout-rounded-down.png" width="30" alt="log out">
+                        </a>
+                    }
+                </div>
+            </form>
+        </div>
+    </nav>
+    <div class="container body-content" style="margin-top:150px">
+        @RenderBody()
+    </div>
+
+        @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/bootstrap")
+        @RenderSection("scripts", required: false)
+
+</body>
+
+
+</html>
