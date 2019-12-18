@@ -32,13 +32,13 @@
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="Email" Type="String" Nullable="false" />
-    <Property Name="Password" Type="String" Nullable="false" />
-    <Property Name="Username" Type="String" Nullable="false" />
-    <Property Name="FullName" Type="String" Nullable="false" />
-    <Property Name="ProfileImg" Type="String" Nullable="false" />
-    <Property Name="Address" Type="String" Nullable="false" />
-    <Property Name="PhoneNumber" Type="String" Nullable="false" MaxLength="12" Unicode="true" />
+    <Property Name="Email" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="Password" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="Username" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="FullName" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="ProfileImg" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="Address" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="PhoneNumber" Type="String" Nullable="false" MaxLength="12" Unicode="true" FixedLength="false" />
     <Property Name="IsAdmin" Type="Boolean" Nullable="false" />
     <Property Name="Active" Type="Boolean" Nullable="false" />
     <NavigationProperty Name="Feedbacks" Relationship="Model1.UserFeedback" FromRole="User" ToRole="Feedback" />
@@ -49,26 +49,27 @@
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="Name" Type="String" Nullable="false" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
     <Property Name="Price" Type="Double" Nullable="false" />
-    <Property Name="CreatedAt" Type="DateTime" Nullable="false" />
-    <Property Name="Provider" Type="String" Nullable="false" />
-    <Property Name="ShortDesc" Type="String" Nullable="false" />
-    <Property Name="LongDesc" Type="String" Nullable="false" />
+    <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="Provider" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="ShortDesc" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="LongDesc" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
     <Property Name="Active" Type="Boolean" Nullable="false" />
     <Property Name="OrderId" Type="Int32" Nullable="false" />
     <NavigationProperty Name="Feedbacks" Relationship="Model1.ProductFeedback" FromRole="Product" ToRole="Feedback" />
     <NavigationProperty Name="Order" Relationship="Model1.OrderProduct" FromRole="Product" ToRole="Order" />
     <NavigationProperty Name="Categories" Relationship="Model1.CategoryProduct" FromRole="Product" ToRole="Category" />
+    <Property Name="ImagePath" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
   </EntityType>
   <EntityType Name="Feedback">
     <Key>
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="Title" Type="String" Nullable="false" />
-    <Property Name="Content" Type="String" Nullable="false" />
-    <Property Name="CreatedAt" Type="DateTime" Nullable="false" />
+    <Property Name="Title" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="Content" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="3" />
     <Property Name="Active" Type="Boolean" Nullable="false" />
     <Property Name="UserId" Type="Int32" Nullable="false" />
     <Property Name="ProductId" Type="Int32" Nullable="false" />
@@ -81,8 +82,8 @@
     </Key>
     <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="Total" Type="Double" Nullable="false" />
-    <Property Name="CreatedAt" Type="DateTime" Nullable="false" />
-    <Property Name="Status" Type="String" Nullable="false" />
+    <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="Status" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
     <Property Name="UserId" Type="Int32" Nullable="false" />
     <NavigationProperty Name="User" Relationship="Model1.UserOrder" FromRole="Order" ToRole="User" />
     <NavigationProperty Name="Products" Relationship="Model1.OrderProduct" FromRole="Order" ToRole="Product" />
@@ -92,8 +93,8 @@
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="Name" Type="String" Nullable="false" />
-    <Property Name="CreatedAt" Type="DateTime" Nullable="false" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="3" />
     <NavigationProperty Name="Products" Relationship="Model1.CategoryProduct" FromRole="Category" ToRole="Product" />
   </EntityType>
   <Association Name="UserFeedback">

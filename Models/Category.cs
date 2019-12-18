@@ -24,5 +24,6 @@ namespace Final_Project.Models
         public System.DateTime CreatedAt { get; set; }
     
         public virtual ICollection<Product> Products { get; set; }
+        public object CategoryID { get; internal set; }
     }
 }

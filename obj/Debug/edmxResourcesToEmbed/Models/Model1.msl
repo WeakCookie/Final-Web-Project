@@ -29,6 +29,7 @@
           <ScalarProperty Name="LongDesc" ColumnName="LongDesc" />
           <ScalarProperty Name="Active" ColumnName="Active" />
           <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+          <ScalarProperty Name="ImagePath" ColumnName="ImagePath" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
