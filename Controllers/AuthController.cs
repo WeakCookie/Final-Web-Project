@@ -29,14 +29,13 @@ namespace Final_Project.Controllers
                 var currentUser = db.Users.SingleOrDefault(u => (u.Username == user.Username || u.Email == user.Email) && (u.Password == user.Password));
                 if (currentUser != null)
                 {
-                    Session["loggedIn"] = currentUser.Email;
+                    Session["loggedIn"] = currentUser.Id.ToString();
                     Session["username"] = currentUser.FullName;
 
                     if (currentUser.IsAdmin == true)
                     {
                         return RedirectToAction("Index", "Admin", new { page = (int?)null });
                     }
-                    ViewBag.fullname = currentUser.FullName;
                     return RedirectToAction("Index", "Home", new { page = (int?)null });
                 }
                 ViewBag.error = "Wrong password and email combination !!!";
@@ -59,11 +58,11 @@ namespace Final_Project.Controllers
         [HttpPost]
         public ActionResult Register(User user, HttpPostedFileBase rawImg)
         {
-            var existedEmail = db.Users.SingleOrDefault(u => u.Email == user.Email);
+            var existedEmail = db.Users.SingleOrDefault(u => u.Email == user.Email || u.Username == user.Username);
             
             if (existedEmail != null)
             {
-                ViewBag.error = "The email you registered is not available";
+                ViewBag.error = "The email or username you registered is not available";
                 return View();
             }
 

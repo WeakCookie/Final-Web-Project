@@ -39,7 +39,7 @@
                     }
                     else
                     {
-                        <div style="padding-right:30px">Hi @System.Web.HttpContext.Current.Session["username"]</div>
+                        <a href="/users/details/@System.Web.HttpContext.Current.Session["loggedIn"]" style="padding-right:30px;padding-top:6px">Welcome, @System.Web.HttpContext.Current.Session["username"]</a>
                         <img src="https://img.icons8.com/pastel-glyph/64/000000/shopping-cart--v2.png" width="30">
                         <a href="/auth/logout" style="margin-left:20px">
                             <img src="https://img.icons8.com/ios/50/000000/logout-rounded-down.png" width="30" alt="log out">
