@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -56,7 +57,7 @@ namespace Final_Project.Controllers
 
         // POST: Auth/Register
         [HttpPost]
-        public ActionResult Register(User user)
+        public ActionResult Register(User user, HttpPostedFileBase rawImg)
         {
             var existedEmail = db.Users.SingleOrDefault(u => u.Email == user.Email);
             
@@ -64,6 +65,21 @@ namespace Final_Project.Controllers
             {
                 ViewBag.error = "The email you registered is not available";
                 return View();
+            }
+
+            if (rawImg != null)
+            {
+                string relativePath = "/avatars/" + DateTime.Now.Ticks.ToString() + "_" + rawImg.FileName;
+                string physicalPath = Server.MapPath(relativePath);
+
+                string imageFolder = Path.GetDirectoryName(physicalPath);
+                if (!Directory.Exists(imageFolder))
+                {
+                    Directory.CreateDirectory(imageFolder);
+                }
+
+                rawImg.SaveAs(physicalPath);
+                user.ProfileImg = relativePath;
             }
 
             user.Active = true;

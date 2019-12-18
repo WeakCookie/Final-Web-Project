@@ -54,7 +54,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.ProfileImg, "Profile Image", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                <input class="btn-default" type="file" name="ProfileImg" id="ProfileImg" />
+                <input class="btn-default" type="file" name="RawImg" id="RawImg" />
                 @Html.ValidationMessageFor(model => model.ProfileImg, "", new { @class = "text-danger" })
             </div>
             <img id="preview" src="#" width="150" style="display:none;margin-top:30px" />
