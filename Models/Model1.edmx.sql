@@ -2,13 +2,13 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 12/18/2019 11:09:59
--- Generated from EDMX file: C:\Users\hidxh\source\repos\Final_Project\Models\Model1.edmx
+-- Date Created: 12/19/2019 09:43:51
+-- Generated from EDMX file: C:\Users\King\Documents\GitHub\Final-Web-Project\Models\Model1.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
 GO
-USE [Amazon];
+USE [OnlineShopping];
 GO
 IF SCHEMA_ID(N'dbo') IS NULL EXECUTE(N'CREATE SCHEMA [dbo]');
 GO
@@ -17,11 +17,47 @@ GO
 -- Dropping existing FOREIGN KEY constraints
 -- --------------------------------------------------
 
+IF OBJECT_ID(N'[dbo].[FK_UserFeedback]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Feedbacks] DROP CONSTRAINT [FK_UserFeedback];
+GO
+IF OBJECT_ID(N'[dbo].[FK_UserOrder]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Orders] DROP CONSTRAINT [FK_UserOrder];
+GO
+IF OBJECT_ID(N'[dbo].[FK_ProductFeedback]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Feedbacks] DROP CONSTRAINT [FK_ProductFeedback];
+GO
+IF OBJECT_ID(N'[dbo].[FK_OrderProduct]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Products] DROP CONSTRAINT [FK_OrderProduct];
+GO
+IF OBJECT_ID(N'[dbo].[FK_CategoryProduct_Category]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[CategoryProduct] DROP CONSTRAINT [FK_CategoryProduct_Category];
+GO
+IF OBJECT_ID(N'[dbo].[FK_CategoryProduct_Product]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[CategoryProduct] DROP CONSTRAINT [FK_CategoryProduct_Product];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
 -- --------------------------------------------------
 
+IF OBJECT_ID(N'[dbo].[Users]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Users];
+GO
+IF OBJECT_ID(N'[dbo].[Products]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Products];
+GO
+IF OBJECT_ID(N'[dbo].[Feedbacks]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Feedbacks];
+GO
+IF OBJECT_ID(N'[dbo].[Orders]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Orders];
+GO
+IF OBJECT_ID(N'[dbo].[Categories]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Categories];
+GO
+IF OBJECT_ID(N'[dbo].[CategoryProduct]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[CategoryProduct];
+GO
 
 -- --------------------------------------------------
 -- Creating all tables
@@ -52,7 +88,8 @@ CREATE TABLE [dbo].[Products] (
     [ShortDesc] nvarchar(max)  NOT NULL,
     [LongDesc] nvarchar(max)  NOT NULL,
     [Active] bit  NOT NULL,
-    [OrderId] int  NOT NULL
+    [OrderId] int  NOT NULL,
+    [ImagePath] nvarchar(max)  NOT NULL
 );
 GO
 

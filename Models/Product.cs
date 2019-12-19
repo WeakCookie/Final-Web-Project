@@ -29,6 +29,7 @@ namespace Final_Project.Models
         public string LongDesc { get; set; }
         public bool Active { get; set; }
         public int OrderId { get; set; }
+        public string ImagePath { get; set; }
     
         public virtual ICollection<Feedback> Feedbacks { get; set; }
         public virtual Order Order { get; set; }

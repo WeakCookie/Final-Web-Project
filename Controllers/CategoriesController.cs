@@ -38,7 +38,9 @@ namespace Final_Project.Controllers
         // GET: Categories/Create
         public ActionResult Create()
         {
-            return View();
+            Category category = new Category();
+            category.CreatedAt = DateTime.Now;
+            return View(category);
         }
 
         // POST: Categories/Create

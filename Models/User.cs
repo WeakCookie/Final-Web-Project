@@ -11,8 +11,7 @@ namespace Final_Project.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-
+    
     public partial class User
     {
         public User()
@@ -22,21 +21,12 @@ namespace Final_Project.Models
         }
     
         public int Id { get; set; }
-        [Display(Name = "Email address")]
-        [Required(ErrorMessage = "The email address is required")]
-        [EmailAddress(ErrorMessage = "Invalid Email Address")]
         public string Email { get; set; }
-        [Required]
         public string Password { get; set; }
-        [Required]
         public string Username { get; set; }
-        [Required]
         public string FullName { get; set; }
-        [Required]
         public string ProfileImg { get; set; }
-        [Required]
         public string Address { get; set; }
-        [Required]
         public string PhoneNumber { get; set; }
         public bool IsAdmin { get; set; }
         public bool Active { get; set; }

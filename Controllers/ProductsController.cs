@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -40,7 +41,9 @@ namespace Final_Project.Controllers
         public ActionResult Create()
         {
             ViewBag.OrderId = new SelectList(db.Orders, "Id", "Status");
-            return View();
+            Product product = new Product();
+            product.CreatedAt = DateTime.Now;
+            return View(product);
         }
 
         // POST: Products/Create
@@ -48,10 +51,31 @@ namespace Final_Project.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,Price,CreatedAt,Provider,ShortDesc,LongDesc,Active,OrderId")] Product product)
+        public ActionResult Create([Bind(Include = "Id,Name,Price,CreatedAt,Provider,ShortDesc,LongDesc,Active,OrderId")] Product product,
+            HttpPostedFileBase ImageFile)
         {
             if (ModelState.IsValid)
             {
+                if (ImageFile != null)
+                {
+                    // create relative path
+                    string relativePath = "/NewsImages/" + DateTime.Now.Ticks.ToString() + "_" + ImageFile.FileName;
+                    // map the relative to physical path
+                    string physicalPath = Server.MapPath(relativePath);
+
+
+                    // check if the image folder exists
+                    string imageFolder = Path.GetDirectoryName(physicalPath);
+                    if (!Directory.Exists(imageFolder))
+                    {
+                        Directory.CreateDirectory(imageFolder);
+                    }
+
+                    // save the image to physical path
+                    ImageFile.SaveAs(physicalPath);
+                    product.ImagePath = relativePath;
+                }
+
                 db.Products.Add(product);
                 db.SaveChanges();
                 return RedirectToAction("Index");
