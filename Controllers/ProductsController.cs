@@ -41,9 +41,7 @@ namespace Final_Project.Controllers
         public ActionResult Create()
         {
             ViewBag.OrderId = new SelectList(db.Orders, "Id", "Status");
-            Product product = new Product();
-            product.CreatedAt = DateTime.Now;
-            return View(product);
+            return View();
         }
 
         // POST: Products/Create
