@@ -11,7 +11,8 @@ namespace Final_Project.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.Web.Mvc;
+
     public partial class Product
     {
         public Product()
@@ -26,6 +27,7 @@ namespace Final_Project.Models
         public System.DateTime CreatedAt { get; set; }
         public string Provider { get; set; }
         public string ShortDesc { get; set; }
+        [AllowHtml]
         public string LongDesc { get; set; }
         public bool Active { get; set; }
         public int OrderId { get; set; }

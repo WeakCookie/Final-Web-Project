@@ -21,15 +21,18 @@
             Provider
         </th>
         <th>
-            Price
+           Price
         </th>
         <th>
-            Brief Desc
+           Brief Detail
         </th>
         <th>
-            Created At
+           Created At
         </th>
-
+        <th>
+            Active
+        </th>
+  
         <th></th>
     </tr>
 
@@ -53,11 +56,14 @@
         <td>
             @Html.DisplayFor(modelItem => item.CreatedAt)
         </td>
-     
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+            @Html.DisplayFor(modelItem => item.Active)
+        </td>
+
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.Id })
         </td>
     </tr>
 }

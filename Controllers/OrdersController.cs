@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
-using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -11,124 +10,112 @@ using Final_Project.Models;
 
 namespace Final_Project
 {
-    public class ProductsController : Controller
+    public class OrdersController : Controller
     {
         private Model1Container db = new Model1Container();
 
-        // GET: Products
+        // GET: Orders
         public ActionResult Index()
         {
-            var products = db.Products.Include(p => p.Order);
-            return View(products.ToList());
+            var orders = db.Orders.Include(o => o.User);
+            return View(orders.ToList());
         }
 
-        // GET: Products/Details/5
+        // GET: Orders/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Product product = db.Products.Find(id);
-            if (product == null)
+            Order order = db.Orders.Find(id);
+            if (order == null)
             {
                 return HttpNotFound();
             }
-            return View(product);
+            return View(order);
         }
 
-        // GET: Products/Create
+        // GET: Orders/Create
         public ActionResult Create()
         {
-            ViewBag.OrderId = new SelectList(db.Orders, "Id", "Status");
+            ViewBag.UserId = new SelectList(db.Users, "Id", "Email");
             return View();
         }
 
-        // POST: Products/Create
+        // POST: Orders/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Product product,
-             HttpPostedFileBase rawImg)
+        public ActionResult Create([Bind(Include = "Id,Total,CreatedAt,Status,UserId")] Order order)
         {
-            if (rawImg != null)
+            if (ModelState.IsValid)
             {
-                string relativePath = "/products/" + DateTime.Now.Ticks.ToString() + "_" + rawImg.FileName;
-                string physicalPath = Server.MapPath(relativePath);
-
-                string imageFolder = Path.GetDirectoryName(physicalPath);
-                if (!Directory.Exists(imageFolder))
-                {
-                    Directory.CreateDirectory(imageFolder);
-                }
-
-                rawImg.SaveAs(physicalPath);
-                product.ImagePath = relativePath;
+                db.Orders.Add(order);
+                db.SaveChanges();
+                return RedirectToAction("Index");
             }
 
-            db.Products.Add(product);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            ViewBag.UserId = new SelectList(db.Users, "Id", "Email", order.UserId);
+            return View(order);
+        }
 
-
-    }
-
-        // GET: Products/Edit/5
+        // GET: Orders/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Product product = db.Products.Find(id);
-            if (product == null)
+            Order order = db.Orders.Find(id);
+            if (order == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.OrderId = new SelectList(db.Orders, "Id", "Status", product.OrderId);
-            return View(product);
+            ViewBag.UserId = new SelectList(db.Users, "Id", "Email", order.UserId);
+            return View(order);
         }
 
-        // POST: Products/Edit/5
+        // POST: Orders/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,Price,CreatedAt,Provider,ShortDesc,LongDesc,Active,OrderId,ImagePath")] Product product)
+        public ActionResult Edit([Bind(Include = "Id,Total,CreatedAt,Status,UserId")] Order order)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(product).State = EntityState.Modified;
+                db.Entry(order).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.OrderId = new SelectList(db.Orders, "Id", "Status", product.OrderId);
-            return View(product);
+            ViewBag.UserId = new SelectList(db.Users, "Id", "Email", order.UserId);
+            return View(order);
         }
 
-        // GET: Products/Delete/5
+        // GET: Orders/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Product product = db.Products.Find(id);
-            if (product == null)
+            Order order = db.Orders.Find(id);
+            if (order == null)
             {
                 return HttpNotFound();
             }
-            return View(product);
+            return View(order);
         }
 
-        // POST: Products/Delete/5
+        // POST: Orders/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Product product = db.Products.Find(id);
-            db.Products.Remove(product);
+            Order order = db.Orders.Find(id);
+            db.Orders.Remove(order);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

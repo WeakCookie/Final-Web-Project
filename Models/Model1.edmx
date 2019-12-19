@@ -56,7 +56,7 @@
           <Property Name="LongDesc" Type="nvarchar(max)" Nullable="false" />
           <Property Name="Active" Type="bit" Nullable="false" />
           <Property Name="OrderId" Type="int" Nullable="false" />
-          <Property Name="ImagePath" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="ImagePath" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="Users">
           <Key>
@@ -241,7 +241,7 @@
           <NavigationProperty Name="Feedbacks" Relationship="Model1.ProductFeedback" FromRole="Product" ToRole="Feedback" />
           <NavigationProperty Name="Order" Relationship="Model1.OrderProduct" FromRole="Product" ToRole="Order" />
           <NavigationProperty Name="Categories" Relationship="Model1.CategoryProduct" FromRole="Product" ToRole="Category" />
-          <Property Name="ImagePath" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="ImagePath" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
         </EntityType>
         <EntityType Name="Feedback">
           <Key>
