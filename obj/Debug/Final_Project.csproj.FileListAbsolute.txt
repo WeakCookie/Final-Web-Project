@@ -233,7 +233,6 @@ E:\Git\Final-Web-Project\bin\System.Web.WebPages.Razor.xml
 E:\Git\Final-Web-Project\bin\Newtonsoft.Json.xml
 E:\Git\Final-Web-Project\bin\Antlr3.Runtime.pdb
 E:\Git\Final-Web-Project\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
-E:\Git\Final-Web-Project\obj\Debug\Final_Project.csprojAssemblyReference.cache
 E:\Git\Final-Web-Project\obj\Debug\Final_Project.csproj.CopyComplete
 E:\Git\Final-Web-Project\obj\Debug\Final_Project.dll
 E:\Git\Final-Web-Project\obj\Debug\Final_Project.pdb
