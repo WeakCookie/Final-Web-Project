@@ -10,7 +10,7 @@
 <h2>ADD NEW PRODUCT</h2>
 
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("Create", "Products1", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
 
