@@ -5,11 +5,11 @@ using System.Web.Routing;
 
 namespace Final_Project.Filters
 {
-    public class CustomAuthFilter : ActionFilterAttribute, IAuthenticationFilter
+    public class CustomAuthFilterAdmin : ActionFilterAttribute, IAuthenticationFilter
     {
         public void OnAuthentication(AuthenticationContext filterContext)
         {
-            if (string.IsNullOrEmpty(Convert.ToString(filterContext.HttpContext.Session["loggedIn"])))
+            if (string.IsNullOrEmpty(Convert.ToString(filterContext.HttpContext.Session["admin"])))
             {
                 filterContext.Result = new HttpUnauthorizedResult();
             }
@@ -22,8 +22,8 @@ namespace Final_Project.Filters
                 filterContext.Result = new RedirectToRouteResult(
                 new RouteValueDictionary
                 {
-                     { "controller", "Home" },
-                     { "action", "Index" }
+                     { "controller", "Auth" },
+                     { "action", "Login" }
                 });
             }
         }

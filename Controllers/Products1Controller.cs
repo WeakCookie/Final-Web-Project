@@ -18,7 +18,7 @@ namespace Final_Project.Controllers
         // GET: Products1
         public ActionResult Index()
         {
-            var products = db.Products.Include(p => p.Order);
+            var products = db.Products;
             return View(products.ToList());
         }
 

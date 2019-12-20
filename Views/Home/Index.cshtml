@@ -1,4 +1,6 @@
-﻿@{
+﻿@model IEnumerable<Final_Project.Models.Product>
+
+@{
     ViewBag.Title = "Home";
 }
 
@@ -6,3 +8,61 @@
     <h1 style="font-size:3rem;letter-spacing:30px;margin-left:40px">Amazon</h1>
     <p class="lead">Choose your cheap product and buy it online now</p>
 </div>
+
+<hr style="margin-bottom:50px;" />
+
+<div style="display:flex;justify-content:center">
+    <div class="btn-group btn-group-toggle" data-toggle="buttons" style="margin-bottom:50px;width: 50%">
+        <label class="btn btn-primary">
+            <input type="radio" name="options" id="option1" autocomplete="off" checked=""> Electronic
+        </label>
+        <label class="btn btn-primary active">
+            <input type="radio" name="options" id="option2" autocomplete="off"> All
+        </label>
+        <label class="btn btn-primary">
+            <input type="radio" name="options" id="option3" autocomplete="off"> Furniture
+        </label>
+    </div>
+</div>
+
+<div style="display:flex;justify-content:space-around">
+    @foreach (var item in Model)
+    {
+    <div class="card border-secondary mb-3" style="max-width: 20rem;">
+        <a href="/products1/details/@item.Id" class="haha" style="transition:all 2s;text-decoration: none">
+            <div class="card-header" style="text-align:center;color:dimgray;font-size:10px">@Html.DisplayFor(modelItem => item.CreatedAt)</div>
+            <img style="height: 200px; width: 100%; display: block; object-fit:contain" src="@Html.DisplayFor(modelItem => item.ImagePath)" alt="Card image">
+            <div class="card-body" style="text-align:center">
+                <h4 class="card-title">@Html.DisplayFor(modelItem => item.Name)</h4>
+                <p class="card-text" style="font-size:17px;">@Html.DisplayFor(modelItem => item.ShortDesc)</p>
+                <p class="card-text" style="max-height:50px;font-size:14px;">@Html.Raw(item.LongDesc)</p>
+                <p class="card-text">@Html.DisplayFor(modelItem => item.Provider)</p>
+                <p class="card-text" style="font-size:21px;color:grey">$@Html.DisplayFor(modelItem => item.Price)</p>
+            </div>
+        </a>
+        
+        @if (!String.IsNullOrEmpty((string)System.Web.HttpContext.Current.Session["loggedIn"]))
+        {
+            <button onclick="addToCart(@item.Id)" class="card-header" id="hihi" style="transition:all 1s;border:none;text-align:center;color:dimgray;font-size:15px">ADD TO CART</button>
+        }
+    </div>
+        
+    }
+</div>
+
+<style>
+    .haha:hover {
+        background-color:rgba(141, 136, 136, 0.15);
+    }
+
+    #hihi:hover {
+        background-color: black;
+        color:whitesmoke;
+    }
+</style>
+
+<script>
+    function addToCart(id) {
+
+    }
+</script>
