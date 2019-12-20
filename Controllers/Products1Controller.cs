@@ -15,6 +15,13 @@ namespace Final_Project.Controllers
     {
         private Model1Container db = new Model1Container();
 
+        [HttpPost]
+        public ActionResult Cart()
+        {
+            return null;
+        }
+
+
         // GET: Products1
         public ActionResult Index()
         {

@@ -62,7 +62,13 @@
 </style>
 
 <script>
-    function addToCart(id) {
+    localStorage.setItem('productsInCart', JSON.stringify([]))
 
+    function addToCart(id) {
+        let productsInCart = localStorage.getItem('productsInCart')
+        productsInCart = JSON.parse(productsInCart)
+        productsInCart.indexOf(id) ? productsInCart.push(id) : null
+        productsInCart = JSON.stringify(productsInCart)
+        localStorage.setItem('productsInCart', productsInCart)
     }
 </script>

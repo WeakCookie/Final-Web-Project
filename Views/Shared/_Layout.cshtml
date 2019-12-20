@@ -40,7 +40,9 @@
                     else
                     {
                         <a href="/users/details/@System.Web.HttpContext.Current.Session["loggedIn"]" style="padding-right:30px;padding-top:6px">Welcome, @System.Web.HttpContext.Current.Session["username"]</a>
-                        <img src="https://img.icons8.com/pastel-glyph/64/000000/shopping-cart--v2.png" width="30">
+                        <button onclick="getCart()" style="border:none;background:none">
+                            <img src="https://img.icons8.com/pastel-glyph/64/000000/shopping-cart--v2.png" width="30">
+                        </button>
                         <a href="/auth/logout" style="margin-left:20px">
                             <img src="https://img.icons8.com/ios/50/000000/logout-rounded-down.png" width="30" alt="log out">
                         </a>
@@ -49,13 +51,27 @@
             </form>
         </div>
     </nav>
+
+    <script>
+        function getCart() {
+            const productsInCart = localStorage.getItem('productsInCart')
+            fetch('https://localhost:44357/products1/cart', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: productsInCart
+            })
+        }
+    </script>
+
     <div class="container body-content" style="margin-top:150px">
         @RenderBody()
     </div>
 
-        @Scripts.Render("~/bundles/jquery")
-        @Scripts.Render("~/bundles/bootstrap")
-        @RenderSection("scripts", required: false)
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
 
 </body>
 
