@@ -238,3 +238,4 @@ E:\Git\Final-Web-Project\obj\Debug\Final_Project.dll
 E:\Git\Final-Web-Project\obj\Debug\Final_Project.pdb
 E:\Git\Final-Web-Project\bin\EntityFramework.SqlServer.dll
 E:\Git\Final-Web-Project\bin\EntityFramework.SqlServer.xml
+E:\Git\Final-Web-Project\obj\Debug\Final_Project.csprojAssemblyReference.cache
