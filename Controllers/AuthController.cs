@@ -34,6 +34,7 @@ namespace Final_Project.Controllers
 
                     if (currentUser.IsAdmin == true)
                     {
+                        Session["admin"] = currentUser.IsAdmin.ToString();
                         return RedirectToAction("Index", "Admin", new { page = (int?)null });
                     }
                     return RedirectToAction("Index", "Home", new { page = (int?)null });

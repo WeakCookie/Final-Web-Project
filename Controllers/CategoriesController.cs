@@ -6,10 +6,12 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using Final_Project.Filters;
 using Final_Project.Models;
 
 namespace Final_Project.Controllers
 {
+    [CustomAuthFilterAdmin]
     public class CategoriesController : Controller
     {
         private Model1Container db = new Model1Container();

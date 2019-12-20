@@ -1,8 +1,29 @@
-﻿@{
+﻿@model IEnumerable<Final_Project.Models.Product>
+
+@{
     ViewBag.Title = "Home";
 }
 
 <div class="text-center" style="margin-top:50px;font-size:24px">
     <h1 style="font-size:3rem;letter-spacing:30px;margin-left:40px">Amazon</h1>
     <p class="lead">Choose your cheap product and buy it online now</p>
+</div>
+
+<hr style="margin-bottom:50px;" />
+
+<div style="display:flex;justify-content:space-around">
+    @foreach (var item in Model)
+    {
+        <a href="/products1/details/@item.Id" class="card text-white bg-primary mb-3" style="max-width: 20rem;text-decoration: none;">
+            <div class="card-header" style="text-align:center;color:dimgray;font-size:10px">@Html.DisplayFor(modelItem => item.CreatedAt)</div>
+            <img style="height: 200px; width: 100%; display: block; object-fit:contain" src="@Html.DisplayFor(modelItem => item.ImagePath)" alt="Card image">
+            <div class="card-body" style="text-align:center">
+                <h4 class="card-title">@Html.DisplayFor(modelItem => item.Name)</h4>
+                <p class="card-text" style="font-size:17px;">@Html.DisplayFor(modelItem => item.ShortDesc)</p>
+                <p class="card-text" style="font-size:14px;">@Html.Raw(item.LongDesc)</p>
+                <p class="card-text">@Html.DisplayFor(modelItem => item.Provider)</p>
+                <p class="card-text" style="font-size:21px;color:grey">$@Html.DisplayFor(modelItem => item.Price)</p>
+            </div>
+        </a>
+    }
 </div>

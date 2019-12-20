@@ -7,7 +7,7 @@ using System.Web.Mvc;
 
 namespace Final_Project.Controllers
 {
-    [CustomAuthFilter]
+    [CustomAuthFilterAdmin]
     public class AdminController : Controller
     {
         // GET: Admin

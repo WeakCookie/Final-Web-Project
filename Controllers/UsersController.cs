@@ -6,14 +6,17 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using Final_Project.Filters;
 using Final_Project.Models;
 
 namespace Final_Project.Controllers
 {
+    [CustomAuthFilter]
     public class UsersController : Controller
     {
         private Model1Container db = new Model1Container();
 
+        [CustomAuthFilterAdmin]
         // GET: Users
         public ActionResult Index()
         {
@@ -90,6 +93,7 @@ namespace Final_Project.Controllers
         }
 
         // GET: Users/Delete/5
+        [CustomAuthFilterAdmin]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -105,6 +109,7 @@ namespace Final_Project.Controllers
         }
 
         // POST: Users/Delete/5
+        [CustomAuthFilterAdmin]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
