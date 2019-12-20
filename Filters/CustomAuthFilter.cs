@@ -22,8 +22,8 @@ namespace Final_Project.Filters
                 filterContext.Result = new RedirectToRouteResult(
                 new RouteValueDictionary
                 {
-                     { "controller", "Auth" },
-                     { "action", "Login" }
+                     { "controller", "Home" },
+                     { "action", "Index" }
                 });
             }
         }
