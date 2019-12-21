@@ -4,85 +4,52 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
+<h2>  @Html.DisplayFor(model => model.Name)</h2>
 
 <div>
-    <h4>Product</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
+        <hr />
+        <dl class="dl-horizontal">
+            <dd>
+                <img src="@Model" with="200" height="200" />
+            </dd>
+           
+            <dd>
+                Provider: @Html.DisplayFor(model => model.Provider)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
+            <dd>
+                Price:  @Html.DisplayFor(model => model.Price)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Price)
-        </dt>
+            <dd>
+                Created At:  @Html.DisplayFor(model => model.CreatedAt)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Price)
-        </dd>
+            <dd>
+                Brief Detail
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.CreatedAt)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.ShortDesc)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.CreatedAt)
-        </dd>
+            <dd>
+                More Detail
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Provider)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.LongDesc)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Provider)
-        </dd>
+            <dd>
+                @Html.DisplayNameFor(model => model.Active)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.ShortDesc)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Active)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.ShortDesc)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.LongDesc)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.LongDesc)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Active)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Active)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.ImagePath)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ImagePath)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Order.Status)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Order.Status)
-        </dd>
-
-    </dl>
+        </dl>
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
