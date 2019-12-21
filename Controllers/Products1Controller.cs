@@ -15,10 +15,24 @@ namespace Final_Project.Controllers
     {
         private Model1Container db = new Model1Container();
 
-        [HttpPost]
         public ActionResult Cart()
         {
-            return null;
+            return View();
+        }
+
+        [HttpPost]
+        [Route("Cart/{stringId}")]
+        public ActionResult Cart(string stringIds)
+        {
+            char[] spearator = { '-' };
+            string[] strlist = stringIds.Split(spearator,StringSplitOptions.RemoveEmptyEntries);
+            int[] intIds = { };
+            for(var i = 0; i < stringIds.Length; i++)
+            {
+                intIds[i] = (int)stringIds[i];
+            }
+            var products = db.Products.Where(p => intIds.Contains(p.Id));
+            return View(products.ToList());
         }
 
 

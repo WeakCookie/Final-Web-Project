@@ -62,8 +62,6 @@
 </style>
 
 <script>
-    localStorage.setItem('productsInCart', JSON.stringify([]))
-
     function addToCart(id) {
         let productsInCart = localStorage.getItem('productsInCart')
         productsInCart = JSON.parse(productsInCart)

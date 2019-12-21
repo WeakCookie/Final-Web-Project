@@ -7,8 +7,23 @@
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/jquery")
+
+    <script>
+        function getCart() {
+            const productsInCart = localStorage.getItem('productsInCart')
+            const stringCart = productsInCart.join('-')
+            alert(stringCart)
+            const url = `/products1/cart/${stringCart}` 
+            $.ajax({
+                type: "POST",
+                url: url ,
+                data: {},
+                contentType: "application/json"
+            });
+        }
+    </script>
 </head>
-<body style="padding-top:0px">
+<body onload="localStorage.setItem('productsInCart', JSON.stringify([]))" style="padding-top:0px">
     <nav class="navbar navbar-expand-lg navbar-light bg-light" style="position:fixed;width:100%;top:0;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.05);z-index:10">
         <img class="navbar-brand" src="https://img.icons8.com/pastel-glyph/50/000000/tree.png" />
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
@@ -40,9 +55,9 @@
                     else
                     {
                         <a href="/users/details/@System.Web.HttpContext.Current.Session["loggedIn"]" style="padding-right:30px;padding-top:6px">Welcome, @System.Web.HttpContext.Current.Session["username"]</a>
-                        <button onclick="getCart()" style="border:none;background:none">
+                        <a href="products1/cart" onclick="getCart()" style="border:none;background:none">
                             <img src="https://img.icons8.com/pastel-glyph/64/000000/shopping-cart--v2.png" width="30">
-                        </button>
+                        </a>
                         <a href="/auth/logout" style="margin-left:20px">
                             <img src="https://img.icons8.com/ios/50/000000/logout-rounded-down.png" width="30" alt="log out">
                         </a>
@@ -51,19 +66,6 @@
             </form>
         </div>
     </nav>
-
-    <script>
-        function getCart() {
-            const productsInCart = localStorage.getItem('productsInCart')
-            fetch('https://localhost:44357/products1/cart', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: productsInCart
-            })
-        }
-    </script>
 
     <div class="container body-content" style="margin-top:150px">
         @RenderBody()
