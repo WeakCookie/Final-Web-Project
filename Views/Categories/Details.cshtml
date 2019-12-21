@@ -4,27 +4,16 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
+<h2>Category:  @Html.DisplayFor(model => model.Name) </h2>
 
 <div>
-    <h4>Category</h4>
+ 
     <hr />
     <dl class="dl-horizontal">
+       
         <dt>
-            @Html.DisplayNameFor(model => model.Name)
+            Created At: @Html.DisplayFor(model => model.CreatedAt)
         </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.CreatedAt)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.CreatedAt)
-        </dd>
 
     </dl>
 </div>

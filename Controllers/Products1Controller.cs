@@ -48,6 +48,11 @@ namespace Final_Project.Controllers
         public ActionResult Create()
         {
             ViewBag.OrderId = new SelectList(db.Orders, "Id", "Status");
+            ViewBag.Categories =
+              new SelectList(
+                  db.Categories.Select(c => new { Text = c.Name, Value = c.Id }).ToList()
+                  , "Value"
+                  , "Text");
             return View();
         }
 
@@ -56,10 +61,11 @@ namespace Final_Project.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Product product, HttpPostedFileBase rawImg)
+        public ActionResult Create(ProductViewModel productViewModel, HttpPostedFileBase rawImg)
         {
             if (ModelState.IsValid)
             {
+                var newProduct = new Product();
 
                 if (rawImg != null)
                 {
@@ -73,16 +79,33 @@ namespace Final_Project.Controllers
                     }
 
                     rawImg.SaveAs(physicalPath);
-                    product.ImagePath = relativePath;
+                    productViewModel.ProImagePath = relativePath;
                 }
-                product.Active = true;
-                db.Products.Add(product);
+
+                productViewModel.ProId = int.Parse(Session["UserID"].ToString());
+                productViewModel.UpdateProduct(newProduct);
+
+                //always check if the object null before usage
+                if (productViewModel.Id != null)
+                {
+                    foreach (var cID in productViewModel.Id)
+                    {
+                        var category = db.Categories.Find(cID);
+                        if (category != null)
+                        {
+                            newProduct.Categories.Add(category);
+                        }
+                    }
+                }
+
+                productViewModel.ProActive = true;
+                db.Products.Add(newProduct);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.OrderId = new SelectList(db.Orders, "Id", "Status", product.OrderId);
-            return View(product);
+            ViewBag.OrderId = new SelectList(db.Orders, "Id", "Status", productViewModel.ProOrderId);
+            return View(productViewModel);
         }
 
         // GET: Products1/Edit/5
@@ -97,8 +120,14 @@ namespace Final_Project.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.OrderId = new SelectList(db.Orders, "Id", "Status", product.OrderId);
-            return View(product);
+            ViewBag.Categories =
+             new SelectList(
+                 db.Categories.Select(c => new { Text = c.Name, Value = c.Id }).ToList()
+                 , "Value"
+                 , "Text");
+            ProductViewModel productViewModel = new ProductViewModel(product);
+            ViewBag.OrderId = new SelectList(db.Orders, "Id", "Status", productViewModel.ProOrderId);
+            return View(productViewModel);
         }
 
         // POST: Products1/Edit/5
@@ -106,16 +135,56 @@ namespace Final_Project.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,Price,CreatedAt,Provider,ShortDesc,LongDesc,Active,OrderId,ImagePath")] Product product)
+        public ActionResult Edit(ProductViewModel productViewModel, HttpPostedFileBase rawImg)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(product).State = EntityState.Modified;
+                var newProduct = db.Products.Find(productViewModel.ProId);
+                if (newProduct == null)
+                {
+                    return HttpNotFound();
+                }
+
+
+                if (rawImg != null)
+                {
+                    string relativePath = "/products/" + DateTime.Now.Ticks.ToString() + "_" + rawImg.FileName;
+                    string physicalPath = Server.MapPath(relativePath);
+
+                    string imageFolder = Path.GetDirectoryName(physicalPath);
+                    if (!Directory.Exists(imageFolder))
+                    {
+                        Directory.CreateDirectory(imageFolder);
+                    }
+
+                    rawImg.SaveAs(physicalPath);
+                    productViewModel.ProImagePath = relativePath;
+                }
+
+                productViewModel.ProId = int.Parse(Session["UserID"].ToString());
+                productViewModel.UpdateProduct(newProduct);
+
+                //always check if the object null before usage
+                if (productViewModel.Id != null)
+                {
+                    foreach (var cID in productViewModel.Id)
+                    {
+                        var category = db.Categories.Find(cID);
+                        if (category != null)
+                        {
+                            newProduct.Categories.Add(category);
+                        }
+                    }
+                }
+
+                productViewModel.ProActive = true;
+                db.Products.Add(newProduct);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.OrderId = new SelectList(db.Orders, "Id", "Status", product.OrderId);
-            return View(product);
+
+            ViewBag.OrderId = new SelectList(db.Orders, "Id", "Status", productViewModel.ProOrderId);
+            return View(productViewModel);
         }
 
         // GET: Products1/Delete/5
