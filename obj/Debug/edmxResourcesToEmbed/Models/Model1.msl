@@ -20,7 +20,6 @@
     <EntitySetMapping Name="Products">
       <EntityTypeMapping TypeName="IsTypeOf(Model1.Product)">
         <MappingFragment StoreEntitySet="Products">
-          <ScalarProperty Name="ImagePath" ColumnName="ImagePath" />
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Name" ColumnName="Name" />
           <ScalarProperty Name="Price" ColumnName="Price" />
@@ -30,6 +29,7 @@
           <ScalarProperty Name="LongDesc" ColumnName="LongDesc" />
           <ScalarProperty Name="Active" ColumnName="Active" />
           <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+          <ScalarProperty Name="ImagePath" ColumnName="ImagePath" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -65,6 +65,23 @@
           <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
         </MappingFragment>
       </EntityTypeMapping>
+      <EntityTypeMapping TypeName="Model1.Category">
+        <ModificationFunctionMapping>
+          <InsertFunction FunctionName="Model1.Store.sp_InsertCategoryInfo">
+            <ScalarProperty Name="CreatedAt" ParameterName="CreatedAt" />
+            <ScalarProperty Name="Name" ParameterName="Name" />
+            <ResultBinding Name="Id" ColumnName="CategoryId" />
+          </InsertFunction>
+          <UpdateFunction FunctionName="Model1.Store.sp_UpdateCategory">
+            <ScalarProperty Name="Id" ParameterName="CategoryId" Version="Current" />
+            <ScalarProperty Name="Name" ParameterName="Name" Version="Current" />
+            <ResultBinding Name="Id" ColumnName="CategoryId" />
+          </UpdateFunction>
+          <DeleteFunction FunctionName="Model1.Store.sp_DeleteCategory">
+            <ScalarProperty Name="Id" ParameterName="CategoryId" />
+          </DeleteFunction>
+        </ModificationFunctionMapping>
+      </EntityTypeMapping>
     </EntitySetMapping>
     <AssociationSetMapping Name="CategoryProduct" TypeName="Model1.CategoryProduct" StoreEntitySet="CategoryProduct">
       <EndProperty Name="Category">
@@ -74,5 +91,33 @@
         <ScalarProperty Name="Id" ColumnName="Products_Id" />
       </EndProperty>
     </AssociationSetMapping>
+    <FunctionImportMapping FunctionImportName="sp_DeleteCategory" FunctionName="Model1.Store.sp_DeleteCategory" />
+    <FunctionImportMapping FunctionImportName="sp_GetCategoryById" FunctionName="Model1.Store.sp_GetCategoryById">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="Model1.sp_GetCategoryById_Result">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sp_GetProductById" FunctionName="Model1.Store.sp_GetProductById">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="Model1.sp_GetProductById_Result">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+          <ScalarProperty Name="Provider" ColumnName="Provider" />
+          <ScalarProperty Name="ShortDesc" ColumnName="ShortDesc" />
+          <ScalarProperty Name="LongDesc" ColumnName="LongDesc" />
+          <ScalarProperty Name="Active" ColumnName="Active" />
+          <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+          <ScalarProperty Name="ImagePath" ColumnName="ImagePath" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sp_InsertCategoryInfo" FunctionName="Model1.Store.sp_InsertCategoryInfo" />
+    <FunctionImportMapping FunctionImportName="sp_UpdateCategory" FunctionName="Model1.Store.sp_UpdateCategory" />
   </EntityContainerMapping>
 </Mapping>

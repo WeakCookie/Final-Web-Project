@@ -26,6 +26,23 @@
       <End Role="Category" EntitySet="Categories" />
       <End Role="Product" EntitySet="Products" />
     </AssociationSet>
+    <FunctionImport Name="sp_DeleteCategory">
+      <Parameter Name="CategoryId" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_GetCategoryById" ReturnType="Collection(Model1.sp_GetCategoryById_Result)">
+      <Parameter Name="CategoryId" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_GetProductById" ReturnType="Collection(Model1.sp_GetProductById_Result)">
+      <Parameter Name="ProductId" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_InsertCategoryInfo">
+      <Parameter Name="Name" Mode="In" Type="String" />
+      <Parameter Name="CreatedAt" Mode="In" Type="DateTime" />
+    </FunctionImport>
+    <FunctionImport Name="sp_UpdateCategory">
+      <Parameter Name="CategoryId" Mode="In" Type="Int32" />
+      <Parameter Name="Name" Mode="In" Type="String" />
+    </FunctionImport>
   </EntityContainer>
   <EntityType Name="User">
     <Key>
@@ -149,4 +166,21 @@
     <End Type="Model1.Category" Role="Category" Multiplicity="*" />
     <End Type="Model1.Product" Role="Product" Multiplicity="*" />
   </Association>
+  <ComplexType Name="sp_GetCategoryById_Result">
+    <Property Type="Int32" Name="Id" Nullable="false" />
+    <Property Type="String" Name="Name" Nullable="false" />
+    <Property Type="DateTime" Name="CreatedAt" Nullable="false" Precision="23" />
+  </ComplexType>
+  <ComplexType Name="sp_GetProductById_Result">
+    <Property Type="Int32" Name="Id" Nullable="false" />
+    <Property Type="String" Name="Name" Nullable="false" />
+    <Property Type="Double" Name="Price" Nullable="false" />
+    <Property Type="DateTime" Name="CreatedAt" Nullable="false" Precision="23" />
+    <Property Type="String" Name="Provider" Nullable="false" />
+    <Property Type="String" Name="ShortDesc" Nullable="false" />
+    <Property Type="String" Name="LongDesc" Nullable="false" />
+    <Property Type="Boolean" Name="Active" Nullable="false" />
+    <Property Type="Int32" Name="OrderId" Nullable="false" />
+    <Property Type="String" Name="ImagePath" Nullable="true" />
+  </ComplexType>
 </Schema>

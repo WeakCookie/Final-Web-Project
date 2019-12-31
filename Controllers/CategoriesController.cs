@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Data.Entity.Core;
+using System.Data.Entity.Core.Objects;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -15,6 +18,7 @@ namespace Final_Project.Controllers
     public class CategoriesController : Controller
     {
         private Model1Container db = new Model1Container();
+        Model1Container context = new Model1Container();
 
         // GET: Categories
         public ActionResult Index()
@@ -52,9 +56,20 @@ namespace Final_Project.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Categories.Add(category);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                Random rnd = new Random();
+                category.Id = rnd.Next(10, 100);
+                context.Categories.Add(category);
+                try
+                {
+                    context.SaveChanges();
+                }
+                catch (OptimisticConcurrencyException)
+                {
+                    // var ctx = ((IObjectContextAdapter)db).ObjectContext;
+                    // ctx.RefreshAsync();
+                    context.Entry(category).Reload();
+                    context.SaveChanges();
+                }
             }
 
             return View(category);

@@ -1,10 +1,11 @@
-
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
 -- Date Created: 12/20/2019 20:04:41
 -- Generated from EDMX file: C:\Users\King\Documents\GitHub\Models\Model1.edmx
 -- --------------------------------------------------
+create DATABASE [OnlineShopping]
+GO
 
 SET QUOTED_IDENTIFIER OFF;
 GO
@@ -257,6 +258,163 @@ CREATE INDEX [IX_FK_CategoryProduct_Product]
 ON [dbo].[CategoryProduct]
     ([Products_Id]);
 GO
+
+
+-- Insert data
+insert into Users values ('duymai@yopmail.com', '123456', 'duymai', 'Duy Mai', '', '123 Bach Dang', '1234567890', 1, 1)
+insert into Users values ('duymai1@yopmail.com', '123456', 'duymai1', 'Duy Maiiii', '', '123 Bach Dang', '1234567890', 0, 1)
+insert into Users values ('duymai2@yopmail.com', '123456', 'duymai2', 'Not Duy Mai', '', '123 Bach Dang', '1234567890', 0, 1)
+GO
+
+insert into Categories VALUES ('Smart Phone', getDate())
+insert into Categories VALUES ('Laptop', getDate())
+insert into Categories VALUES ('TV', getDate())
+insert into Categories VALUES ('Keyboard', getDate())
+GO
+
+insert into Orders VALUES (99.99, getDate(), 'SAVED', 1)
+insert into Orders VALUES (9.99, getDate(), 'PURCHASED', 1)
+insert into Orders VALUES (10.99, getDate(), 'SAVED', 1)
+insert into Orders VALUES (1000, getDate(), 'PURCHASED', 2)
+insert into Orders VALUES (435.5, getDate(), 'SAVED', 2)
+insert into Orders VALUES (234.2, getDate(), 'PURCHASED', 2)
+insert into Orders VALUES (123, getDate(), 'SAVED', 3)
+insert into Orders VALUES (5345, getDate(), 'SAVED', 3)
+GO
+
+INSERT into Products VALUES ('Iphone 7', 399, getDate(), 'Apple', 'This is an iphone', 'This is an iphone 7 of Apple', 1, 1, '')
+INSERT into Products VALUES ('Iphone 5s', 99, getDate(), 'Apple', 'This is an iphone', 'This is an iphone 7 of Apple', 1, 2, '')
+INSERT into Products VALUES ('Iphone X', 799, getDate(), 'Apple', 'This is an iphone', 'This is an iphone 7 of Apple', 1, 3, '')
+INSERT into Products VALUES ('Iphone Xs Max', 1099, getDate(), 'Apple', 'This is an iphone', 'This is an iphone 7 of Apple', 1, 4, '')
+INSERT into Products VALUES ('Macbook Pro 2015', 1139, getDate(), 'Apple', 'This is a macbook pro', 'This is a macbook pro 2015 of Apple', 1, 5, '')
+INSERT into Products VALUES ('iMac', 2099, getDate(), 'Apple', 'This is an iMac', 'This is an iMac of Apple', 1, 6, '')
+INSERT into Products VALUES ('Magic keyboard', 199, getDate(), 'Apple', 'This is a keyboard', 'This is a keyboard of Apple', 1, 7, '')
+INSERT into Products VALUES ('Airpod', 249, getDate(), 'Apple', 'This is a bluetooth earphone', 'This is a bluetooth earphone of Apple', 1, 8, '')
+INSERT into Products VALUES ('Iphone 6s', 349, getDate(), 'Apple', 'This is an iphone', 'This is an iphone 6s of Apple', 1, 2, '')
+INSERT into Products VALUES ('Iphone 8 plus', 599, getDate(), 'Apple', 'This is an iphone', 'This is an iphone 8 plus of Apple', 1, 2, '')
+INSERT into Products VALUES ('Magic mouse', 299, getDate(), 'Apple', 'Some desc', 'Magic mouseeee of Apple', 1, 2, '')
+INSERT into Products VALUES ('Charger', 499, getDate(), 'Apple', 'Charger for macbook', 'Necessary item for macbook of Apple', 1, 4, '')
+INSERT into Products VALUES ('Lenovo Thinkpad', 1099, getDate(), 'Lenovo', 'Good laptop', 'Laptop of Lenovo', 1, 4, '')
+INSERT into Products VALUES ('Dell XPS', 2099, getDate(), 'Dell', 'Good laptop but expensive', 'Despite the perfect of this laptop, it is so expensive', 1, 1, '')
+INSERT into Products VALUES ('Gaming keyboard', 399, getDate(), 'Razor', 'Keyboard has colors', 'Lalalaaa', 1, 2, '')
+go
+
+-- Create or alter Views --
+create or ALTER VIEW Admins as
+    SELECT * FROM [Users] u
+        WHERE u.IsAdmin = 1
+GO
+-----
+create or ALTER VIEW NotAdmins as
+    SELECT * FROM [Users] u
+        WHERE u.IsAdmin != 1
+GO
+-----
+create or alter view AllCategories as
+    SELECT * from Categories
+GO
+-----
+create or alter view AllProducts as
+    SELECT * from Products
+GO
+
+-- Create or alter Triggers --
+Create or ALTER Trigger tg_CheckDuplicate on Users for insert, UPDATE as
+begin
+	declare @Email nvarchar(63)
+	select @Email = Email
+		from inserted
+	if EXISTS (Select *
+				From Users u
+				Where u.Email = @Email)
+		BEGIN
+			rollback transaction
+			print 'Email is already existed!'
+		end
+end
+GO
+
+-- Create or alter Stored Procedures --
+CREATE or ALTER PROCEDURE [sp_GetProductById]
+    @ProductId int = null
+AS
+BEGIN
+    -- SET NOCOUNT ON added to prevent extra result sets from
+    -- interfering with SELECT statements.
+    SET NOCOUNT ON;
+    -- Insert statements for procedure here
+    select *
+    from Products p
+    where p.Id = @ProductId
+END
+GO
+-----
+CREATE or ALTER PROCEDURE [sp_GetCategoryById]
+    @CategoryId int = null
+AS
+BEGIN
+    SET NOCOUNT ON;
+    select *
+    from Categories c
+    where c.Id = @CategoryId
+END
+GO
+-----
+CREATE or ALTER PROCEDURE [sp_InsertCategoryInfo]
+    @Name nvarchar(max),
+    @CreatedAt datetime
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    INSERT INTO [Categories]
+    VALUES(@Name, @CreatedAt)
+END
+GO
+-----
+CREATE or ALTER PROCEDURE [dbo].[sp_UpdateCategory]
+    @CategoryId int = null,
+    @Name nvarchar(max)
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    Update [Categories]
+    set Name = @Name
+    where Id = @CategoryId;
+
+END
+go
+-----
+CREATE or ALTER PROCEDURE [sp_DeleteCategory]
+    @CategoryId int
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    DELETE FROM [Categories]
+    where Id = @CategoryId
+END
+GO
+
+-- Create or alter Stored Functions --
+
+
+-- Query Views
+-- SELECT * FROM Admins
+-- -----
+-- SELECT * from AllCategories
+-----
+-- SELECT * from AllProducts
+-----
+-- SELECT * FROM NotAdmins
+
+-- Call Stored Procedure
+-- EXEC sp_GetProductById 8
+-- EXEC sp_GetCategoryById 2
+-- EXEC sp_InsertCategoryInfo 'Tablet_2', '2019-12-31 06:26:48.263'
+-- EXEC sp_UpdateCategory 1, 'Smart Phone_Edited'
+-- EXEC sp_DeleteCategory 6
 
 -- --------------------------------------------------
 -- Script has ended

@@ -11,7 +11,11 @@ namespace Final_Project.Models
 {
     using System;
     using System.Data.Entity;
+    using System.Data.Entity.Core.Objects;
     using System.Data.Entity.Infrastructure;
+    // using System.Data.Objects;
+    // using System.Data.Objects.DataClasses;
+    using System.Linq;
     
     public partial class Model1Container : DbContext
     {
@@ -30,5 +34,58 @@ namespace Final_Project.Models
         public DbSet<Feedback> Feedbacks { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<Category> Categories { get; set; }
+    
+        public virtual int sp_DeleteCategory(Nullable<int> categoryId)
+        {
+            var categoryIdParameter = categoryId.HasValue ?
+                new ObjectParameter("CategoryId", categoryId) :
+                new ObjectParameter("CategoryId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_DeleteCategory", categoryIdParameter);
+        }
+    
+        public virtual ObjectResult<sp_GetCategoryById_Result> sp_GetCategoryById(Nullable<int> categoryId)
+        {
+            var categoryIdParameter = categoryId.HasValue ?
+                new ObjectParameter("CategoryId", categoryId) :
+                new ObjectParameter("CategoryId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetCategoryById_Result>("sp_GetCategoryById", categoryIdParameter);
+        }
+    
+        public virtual ObjectResult<sp_GetProductById_Result> sp_GetProductById(Nullable<int> productId)
+        {
+            var productIdParameter = productId.HasValue ?
+                new ObjectParameter("ProductId", productId) :
+                new ObjectParameter("ProductId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetProductById_Result>("sp_GetProductById", productIdParameter);
+        }
+    
+        public virtual int sp_InsertCategoryInfo(string name, Nullable<System.DateTime> createdAt)
+        {
+            var nameParameter = name != null ?
+                new ObjectParameter("Name", name) :
+                new ObjectParameter("Name", typeof(string));
+    
+            var createdAtParameter = createdAt.HasValue ?
+                new ObjectParameter("CreatedAt", createdAt) :
+                new ObjectParameter("CreatedAt", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_InsertCategoryInfo", nameParameter, createdAtParameter);
+        }
+    
+        public virtual int sp_UpdateCategory(Nullable<int> categoryId, string name)
+        {
+            var categoryIdParameter = categoryId.HasValue ?
+                new ObjectParameter("CategoryId", categoryId) :
+                new ObjectParameter("CategoryId", typeof(int));
+    
+            var nameParameter = name != null ?
+                new ObjectParameter("Name", name) :
+                new ObjectParameter("Name", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_UpdateCategory", categoryIdParameter, nameParameter);
+        }
     }
 }

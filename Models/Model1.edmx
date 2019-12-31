@@ -145,6 +145,23 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="sp_DeleteCategory" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CategoryId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_GetCategoryById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CategoryId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_GetProductById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ProductId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_InsertCategoryInfo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Name" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="CreatedAt" Type="datetime" Mode="In" />
+        </Function>
+        <Function Name="sp_UpdateCategory" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CategoryId" Type="int" Mode="In" />
+          <Parameter Name="Name" Type="nvarchar(max)" Mode="In" />
+        </Function>
         <EntityContainer Name="Model1StoreContainer">
           <EntitySet Name="Categories" EntityType="Self.Categories" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CategoryProduct" EntityType="Self.CategoryProduct" Schema="dbo" store:Type="Tables" />
@@ -207,6 +224,23 @@
             <End Role="Category" EntitySet="Categories" />
             <End Role="Product" EntitySet="Products" />
           </AssociationSet>
+          <FunctionImport Name="sp_DeleteCategory">
+          <Parameter Name="CategoryId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_GetCategoryById" ReturnType="Collection(Model1.sp_GetCategoryById_Result)">
+          <Parameter Name="CategoryId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_GetProductById" ReturnType="Collection(Model1.sp_GetProductById_Result)">
+          <Parameter Name="ProductId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_InsertCategoryInfo">
+          <Parameter Name="Name" Mode="In" Type="String" />
+            <Parameter Name="CreatedAt" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="sp_UpdateCategory">
+          <Parameter Name="CategoryId" Mode="In" Type="Int32" />
+            <Parameter Name="Name" Mode="In" Type="String" />
+          </FunctionImport>
         </EntityContainer>
         <EntityType Name="User">
           <Key>
@@ -330,6 +364,23 @@
           <End Type="Model1.Category" Role="Category" Multiplicity="*" />
           <End Type="Model1.Product" Role="Product" Multiplicity="*" />
         </Association>
+        <ComplexType Name="sp_GetCategoryById_Result">
+          <Property Type="Int32" Name="Id" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="false" />
+          <Property Type="DateTime" Name="CreatedAt" Nullable="false" Precision="23" />
+        </ComplexType>
+        <ComplexType Name="sp_GetProductById_Result">
+          <Property Type="Int32" Name="Id" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="false" />
+          <Property Type="Double" Name="Price" Nullable="false" />
+          <Property Type="DateTime" Name="CreatedAt" Nullable="false" Precision="23" />
+          <Property Type="String" Name="Provider" Nullable="false" />
+          <Property Type="String" Name="ShortDesc" Nullable="false" />
+          <Property Type="String" Name="LongDesc" Nullable="false" />
+          <Property Type="Boolean" Name="Active" Nullable="false" />
+          <Property Type="Int32" Name="OrderId" Nullable="false" />
+          <Property Type="String" Name="ImagePath" Nullable="true" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -400,6 +451,23 @@
           <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
         </MappingFragment>
       </EntityTypeMapping>
+            <EntityTypeMapping TypeName="Model1.Category">
+              <ModificationFunctionMapping>
+                <InsertFunction FunctionName="Model1.Store.sp_InsertCategoryInfo">
+                  <ScalarProperty Name="CreatedAt" ParameterName="CreatedAt" />
+                  <ScalarProperty Name="Name" ParameterName="Name" />
+                  <ResultBinding Name="Id" ColumnName="CategoryId" />
+                </InsertFunction>
+                <UpdateFunction FunctionName="Model1.Store.sp_UpdateCategory">
+                  <ScalarProperty Name="Id" ParameterName="CategoryId" Version="Current" />
+                  <ScalarProperty Name="Name" ParameterName="Name" Version="Current" />
+                  <ResultBinding Name="Id" ColumnName="CategoryId" />
+                </UpdateFunction>
+                <DeleteFunction FunctionName="Model1.Store.sp_DeleteCategory" >
+                  <ScalarProperty Name="Id" ParameterName="CategoryId" />
+                </DeleteFunction>
+              </ModificationFunctionMapping>
+            </EntityTypeMapping>
     </EntitySetMapping>
     <AssociationSetMapping Name="CategoryProduct" TypeName="Model1.CategoryProduct" StoreEntitySet="CategoryProduct">
       <EndProperty Name="Category">
@@ -409,6 +477,34 @@
         <ScalarProperty Name="Id" ColumnName="Products_Id" />
       </EndProperty>
     </AssociationSetMapping>
+          <FunctionImportMapping FunctionImportName="sp_DeleteCategory" FunctionName="Model1.Store.sp_DeleteCategory" />
+          <FunctionImportMapping FunctionImportName="sp_GetCategoryById" FunctionName="Model1.Store.sp_GetCategoryById">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="Model1.sp_GetCategoryById_Result">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_GetProductById" FunctionName="Model1.Store.sp_GetProductById">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="Model1.sp_GetProductById_Result">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="Provider" ColumnName="Provider" />
+                <ScalarProperty Name="ShortDesc" ColumnName="ShortDesc" />
+                <ScalarProperty Name="LongDesc" ColumnName="LongDesc" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+                <ScalarProperty Name="ImagePath" ColumnName="ImagePath" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_InsertCategoryInfo" FunctionName="Model1.Store.sp_InsertCategoryInfo" />
+          <FunctionImportMapping FunctionImportName="sp_UpdateCategory" FunctionName="Model1.Store.sp_UpdateCategory" />
   </EntityContainerMapping>
 </Mapping></edmx:Mappings>
   </edmx:Runtime>
