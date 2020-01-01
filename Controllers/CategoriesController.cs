@@ -19,7 +19,9 @@ namespace Final_Project.Controllers
         // GET: Categories
         public ActionResult Index()
         {
-            return View(db.Categories.ToList());
+            string query = "SELECT *" + "FROM Categories";
+            IEnumerable<Category> data = db.Database.SqlQuery<Category>(query);
+            return View(data.ToList());
         }
 
         // GET: Categories/Details/5
