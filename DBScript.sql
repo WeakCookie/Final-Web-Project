@@ -261,7 +261,7 @@ GO
 
 
 -- Insert data
-insert into Users values ('duymai5@yopmail.com', '123456', 'duymai4', 'Duy Mai', '', '123 Bach Dang', '1234567890', 1, 1)
+insert into Users values ('duymai4@yopmail.com', '123456', 'duymai3', 'Duy Mai', '', '123 Bach Dang', '1234567890', 1, 1)
 insert into Users values ('duymai1@yopmail.com', '123456', 'duymai1', 'Duy Maiiii', '', '123 Bach Dang', '1234567890', 0, 1)
 insert into Users values ('duymai2@yopmail.com', '123456', 'duymai2', 'Not Duy Mai', '', '123 Bach Dang', '1234567890', 0, 1)
 GO
@@ -319,27 +319,29 @@ create or alter view AllProducts as
 GO
 
 -- Create or alter Triggers --
-Create or ALTER Trigger tg_CheckDuplicateUser on Users for insert, UPDATE as
+Create or ALTER Trigger tg_CheckDuplicateUser on Users for insert as
 begin
-	declare @email nvarchar(max), @username NVARCHAR(max)
+	declare @email nvarchar(max), @username NVARCHAR(max), @count SMALLINT
 	select @email = Email, @username = Username
 		from inserted
-	if EXISTS (Select *
-				From Users u
-				Where u.Email = @email)
+    Select @count = count(*)
+            From Users u
+            Where u.Email = @email
+	if (@count > 1)
 		BEGIN
 			rollback transaction;
-			-- THROW 52000, 'Email is already existed!', 1
-            print 'Email is already existed!'
+			THROW 52000, 'Email is already existed!', 1
+            -- print 'Email is already existed!'
 		end
-    if EXISTS (Select *
-				From Users u
-				Where u.Username = @username)
+    Select @count = count(*)
+            From Users u
+            Where u.Username = @username
+	if (@count > 1)
 		BEGIN
 			rollback transaction;
-			-- THROW 53000, 'Username is already existed!', 1
-            PRINT 'Username is already existed!'
-		end
+			THROW 53000, 'Username is already existed!', 1
+            -- PRINT 'Username is already existed!'
+		END
 end
 GO
 
