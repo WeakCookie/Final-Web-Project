@@ -39,8 +39,9 @@ namespace Final_Project.Controllers
         // GET: Products1
         public ActionResult Index()
         {
-            var products = db.Products;
-            return View(products.ToList());
+            string query = "SELECT *" + "FROM Products";
+            IEnumerable<Product> data = db.Database.SqlQuery<Product>(query);
+            return View(data.ToList());
         }
 
         // GET: Products1/Details/5
